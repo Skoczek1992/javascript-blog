@@ -1,5 +1,15 @@
 'use strict';
 
+const optArticleSelector = '.post',
+  optTitleSelector = '.post-title',
+  optTitleListSelector = '.titles';
+optArticleTagsSelector = '.post-tags .list';
+optArticleAuthorSelector = '.post-author';
+optTagsListSelector = '.tags.list';
+optCloudClassPrefix = '.tag-size';
+optCloudClassCount = 5;
+
+
 const titleClickHandler = function(event){
   event.preventDefault();
   const clickedElement = this;
@@ -37,21 +47,12 @@ const titleClickHandler = function(event){
   targetArticle.classList.add('active');
 };
 
-
-
 /*
     NEXT EXERICSE
 
     Generate Title links
 
  */
-
-const optArticleSelector = '.post',
-  optTitleSelector = '.post-title',
-  optTitleListSelector = '.titles';
-optArticleTagsSelector = '.post-tags .list';
-optArticleAuthorSelector = '.post-author';
-optTagsListSelector = '.tags.list';
 
 function generateTitleLinks(customSelector = ''){
 
@@ -103,7 +104,6 @@ for(let link of links){
   link.addEventListener('click', titleClickHandler);
   console.log('click');
 }
-
 
 /*  new exercise
 
@@ -385,9 +385,47 @@ addClickListenersToAuthors();
 
 /*
   ex. 7.3
+  calculateTagsParams
+*/
+
+function calculateTagsParams(tags){
+console.log(tags);
+
+  /* [DONE] crate with min and max value */
+  const params = (max: '0', min: '999999');
+  console.log(params);
+
+  /* START LOOP */
+  for(let tag in tags){
+  console.log(tag + ' is used ' + tags[tag] + ' times');
+
+    if(tags[tag] > params.max){
+    params.max = tags[tag];
+    }
+    else if(tags[tag] < params.min){
+    params.min = tags[tag];
+    }
+  }
+  return params;
+  }
+
+/*
+  new function
+  calculateTagClass
 
 */
 
+function calculateTagClass(count, params) {
+console.log(count, params);
+
+  const optCloudClassCount = 5;
+  const normalizedCount = count - params.min;
+  const normalizedMax = params.max - params.min;
+  const percentage = normalizedCount / normalizedMax;
+  const classNumber = Math.floor(percentage * (optCloudClassCount -1) + 1);
+  console.log(classNumber);
+return classNumber
+}
 function generateTags(){
   /* [NEW] create a new variable allTags with an empty object */
   let allTags = {};
@@ -411,7 +449,7 @@ function generateTags(){
   /* add generated code to html variable */
 
   /* [NEW] check if this link is NOT already in allTags */
-  if(!allTags.hawOwnProperty(tag)){
+  if(!allTags.hasOwnProperty(tag)){
     /* [NEW] add tag to allTags object */
     allTags[tag] = 1;
   } else {
@@ -427,19 +465,17 @@ function generateTags(){
   /* [NEW] find list of tags in right column */
   const tagList = document.querySelector('.tags');
 
-  /* [NEW] add html from allTags to tagList */
-  //tagList.innerHTML = allTags.join(' ');
-
   /* [NEW] create variable for all links HTML code*/
   let allTagsHTML = '';
 
   /* [NEW] START LOOP: for each tag in allTags;*/
   for(let tag in allTags){
+
     /* [NEW] generate code of a link and add it to allTagsHTML */
     allTagsHTML += tag + '(' + allTags[tag] + ')';
-  }
-  /*[NEW] END LOOP: for each tag in allTags */
 
+  /*[NEW] END LOOP: for each tag in allTags */
+  }
   /* [NEW] add html from allTagsHTML to tagList */
   tagList.innerHTML = allTagsHTML;
 }
