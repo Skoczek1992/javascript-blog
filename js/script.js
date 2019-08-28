@@ -97,18 +97,21 @@ function generateTitleLinks(customSelector = ''){
 
   titleList.innerHTML = html;
 
+  const links = document.querySelectorAll('.titles a');
+  console.log('links');
+
+  for(let link of links){
+    link.addEventListener('click', titleClickHandler);
+    console.log('click');
+  }
+
+
 }
 
 
 generateTitleLinks();
 
-const links = document.querySelectorAll('.titles a');
-console.log('links');
 
-for(let link of links){
-  link.addEventListener('click', titleClickHandler);
-  console.log('click');
-}
 
 /*
   ex. 7.3
@@ -210,7 +213,7 @@ function generateTags(){
     const allTagsData = {tags: []};
 
     /* [NEW]  START LOOP: for each tag in allTags */
-    for(let tag of allTags) {
+    for(let tag in allTags) {
 
       /* [NEW] generate code of a link and add it to allTagsHTML */
       allTagsData.tags.push({
